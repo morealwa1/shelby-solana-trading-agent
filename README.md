@@ -54,6 +54,37 @@ This agent monitors Meteora Dynamic Liquidity Market Maker (DLMM) pools, generat
 - [x] **Configurable Position Sizing** — Max position, min liquidity thresholds
 - [x] **Cron-based Automation** — Scheduled runs with configurable intervals
 - [x] **Environment-based Config** — No hardcoded credentials
+- [x] **Telegram Trade Alerts** — Get notified on buy/sell/LP signals via Telegram bot
+
+---
+
+## Notifications
+
+The agent can send real-time trade alerts to Telegram when signals are generated.
+
+### Setup
+
+1. Create a Telegram bot via [@BotFather](https://t.me/BotFather)
+2. Get your bot token (starts with `bot`)
+3. Start a chat with your bot and send `/start`
+4. Get your chat ID using [@userinfobot](https://t.me/userinfobot) or the API
+
+Add to your `.env`:
+
+```env
+TELEGRAM_BOT_TOKEN=your_telegram_bot_token
+TELEGRAM_CHAT_ID=5285735187
+```
+
+### Alert Format
+
+```
+🟢 BUY
+Token: `ABC123`
+Amount: 0.72K
+Tx: `ABC12345...XYZ78901`
+Pool: `DEF67890...GHI23456`
+```
 
 ---
 

@@ -14,6 +14,7 @@ from pathlib import Path
 from agent.config import config
 from agent.meteora_client import MeteoraClient
 from agent.signals import SignalGenerator
+from agent.telegram_notifier import telegram_notifier, TradeType
 
 
 DATA_DIR = Path(__file__).parent.parent / "data"
@@ -107,6 +108,19 @@ async def run_agent_cycle() -> None:
             print(f"  [{pool.address[:8]}...] {signal.signal} | "
                   f"Confidence: {signal.confidence:.2f} | "
                   f"RSI: {signal.rsi:.1f}")
+
+            # Send Telegram alert for trade signals
+            try:
+                trade_type = TradeType(signal.signal.upper())
+                telegram_notifier.send_trade_alert(
+                    trade_type=trade_type,
+                    token_symbol=pool.address[:8],
+                    amount=signal.confidence,
+                    pool_address=pool.address,
+                )
+            except ValueError:
+                # Unknown signal type, skip alert
+                pass
 
             signals_generated.append(signal_data)
 
